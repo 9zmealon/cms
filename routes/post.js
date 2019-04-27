@@ -32,7 +32,8 @@ router.post('/:pageId', authentication.isLog, (req, res) => {//------create post
     }
     Post.create(data, (err, post) => {
         if (err) throw err;
-        res.redirect(302, `/image/${post._id}`);
+        // res.redirect(301, `/image/${post._id}`);
+        res.send({message:"select image to this post",link: `/image/${post._id}`})
     })
 })
 
