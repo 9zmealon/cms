@@ -15,6 +15,11 @@ var postRouter = require('./routes/post');
 var imageRouter = require('./routes/image');
 
 
+
+
+
+
+
 var app = express();
 
 // view engine setup
@@ -37,6 +42,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(require('flash')());
+
 //=====
 var User = require("./model/User");//-------For MOngoDB connection
 passport.serializeUser(function (user, done) {//-------passport Sereialize
@@ -45,7 +52,7 @@ passport.serializeUser(function (user, done) {//-------passport Sereialize
 
 
 passport.deserializeUser(function (uid, done) {//-------passport Deserialize
-  User.findOne({_id: uid}, function (err, user) {
+  User.findOne({ _id: uid }, function (err, user) {
     if (err) throw err;
     done(err, user);
   });
@@ -68,19 +75,13 @@ app.use('/image', imageRouter);
 
 
 
-
-
-
-
-
-
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
